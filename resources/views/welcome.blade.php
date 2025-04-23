@@ -291,6 +291,59 @@
                     color: rgba(255, 255, 255, 0.6);
                 }
             }
+            .quote-box {
+    position: relative;
+    height: 500px;
+    overflow: hidden;
+    border-radius: 8px;
+    background-color: #f3f4f6; /* abu terang */
+    /* padding: 0.5rem; */
+    margin-top: 1rem;
+}
+
+.quote-scroll {
+    position: absolute;
+    width: 100%;
+    animation: scroll-quotes 25s linear infinite;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.quote-card {
+    background-color: #ffffff;
+    /* border-left: 4px solid #e3342f; merah Laravel */
+    padding: 0.75rem;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    color: #374151;
+    font-style: italic;
+    transition: transform 0.3s ease;
+}
+
+.quote-box:hover .quote-scroll {
+    animation-play-state: paused;
+}
+
+/* Auto-scroll keyframes */
+@keyframes scroll-quotes {
+    0% {
+        top: 100%;
+    }
+    100% {
+        top: -100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .quote-card {
+        font-size: 0.9rem;
+        padding: 0.5rem 0.75rem;
+    }
+}
+
+
+            
         </style>
     </head>
     <body>
@@ -310,10 +363,19 @@
                 <main>
                     <div class="grid">
                         <div class="card docs-card">
-                            <div class="screenshot-container">
+                            {{-- <div class="screenshot-container">
                                 <img src="https://laravel.com/assets/img/welcome/docs-light.svg" alt="Laravel documentation screenshot" class="screenshot" />
                                 <div class="screenshot-overlay"></div>
+                            </div> --}}
+                        <div class="quote-box">
+                            <div class="quote-scroll">
+                                <div class="quote-card">"Ketekunan adalah kunci kesuksesan."</div>
+                                <div class="quote-card">"Laravel memudahkan developer membangun aplikasi modern."</div>
+                                <div class="quote-card">"Konsistensi lebih penting daripada motivasi sementara."</div>
                             </div>
+                        </div>
+
+
 
                             <div class="card-content docs-content">
                                 <div class="icon-container">
