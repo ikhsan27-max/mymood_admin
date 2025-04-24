@@ -315,24 +315,24 @@
     /* border-left: 4px solid #e3342f; merah Laravel */
     padding: 0.75rem;
     border-radius: 6px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25);
     color: #374151;
     font-style: italic;
-    transition: transform 0.3s ease;
+    transition: transform 0.1s ease;
 }
 
-.quote-box:hover .quote-scroll {
+/* .quote-box:hover .quote-scroll {
     animation-play-state: paused;
-}
+} */
 
 /* Auto-scroll keyframes */
 @keyframes scroll-quotes {
-    0% {
-        top: 100%;
-    }
-    100% {
-        top: -100%;
-    }
+  0% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
 }
 
 @media (max-width: 600px) {
@@ -355,8 +355,8 @@
                     </div>
                     
                     <nav>
-                        <a href="#" class="nav-link">Log in</a>
-                        <a href="#" class="nav-link">Register</a>
+                        {{-- <a href="#" class="nav-link">Log in</a> --}}
+                        <a href="#" class="nav-link">Admin</a>
                     </nav>
                 </header>
 
@@ -369,6 +369,21 @@
                             </div> --}}
                         <div class="quote-box">
                             <div class="quote-scroll">
+                                <div class="quote-card">"Ketekunan adalah kunci kesuksesan."</div>
+                                <div class="quote-card">"Laravel memudahkan developer membangun aplikasi modern."</div>
+                                <div class="quote-card">"Konsistensi lebih penting daripada motivasi sementara."</div>
+                                <div class="quote-card">"Ketekunan adalah kunci kesuksesan."</div>
+                                <div class="quote-card">"Laravel memudahkan developer membangun aplikasi modern."</div>
+                                <div class="quote-card">"Konsistensi lebih penting daripada motivasi sementara."</div>
+                                <div class="quote-card">"Ketekunan adalah kunci kesuksesan."</div>
+                                <div class="quote-card">"Laravel memudahkan developer membangun aplikasi modern."</div>
+                                <div class="quote-card">"Konsistensi lebih penting daripada motivasi sementara."</div>
+                                <div class="quote-card">"Ketekunan adalah kunci kesuksesan."</div>
+                                <div class="quote-card">"Laravel memudahkan developer membangun aplikasi modern."</div>
+                                <div class="quote-card">"Konsistensi lebih penting daripada motivasi sementara."</div>
+                                <div class="quote-card">"Ketekunan adalah kunci kesuksesan."</div>
+                                <div class="quote-card">"Laravel memudahkan developer membangun aplikasi modern."</div>
+                                <div class="quote-card">"Konsistensi lebih penting daripada motivasi sementara."</div>
                                 <div class="quote-card">"Ketekunan adalah kunci kesuksesan."</div>
                                 <div class="quote-card">"Laravel memudahkan developer membangun aplikasi modern."</div>
                                 <div class="quote-card">"Konsistensi lebih penting daripada motivasi sementara."</div>
