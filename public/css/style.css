@@ -280,48 +280,111 @@ footer {
         color: rgba(255, 255, 255, 0.6);
     }
 }
+.card {
+    width: 100%;
+    max-width: 600px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    padding: 24px 24px 0;
+    position: relative;
+}
+
+.icon-badge {
+    background-color: #f3f4f6;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+}
+
+.icon-badge svg {
+    color: #6b7280;
+}
+
+.card-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #111827;
+}
+
 .quote-box {
-position: relative;
-height: 500px;
-overflow: hidden;
-border-radius: 8px;
-background-color: #f3f4f6; /* abu terang */
-/* padding: 0.5rem; */
-margin-top: 1rem;
+    position: relative;
+    padding: 20px 0;
+    overflow: hidden;
+    height: 100px;
+    margin: 20px 0;
 }
 
 .quote-scroll {
-position: absolute;
-width: 100%;
-animation: scroll-quotes 25s linear infinite;
-display: flex;
-flex-direction: column;
-gap: 0.75rem;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    animation: scrollQuotes 60s linear infinite;
+}
+
+@keyframes scrollQuotes {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-50%); }
 }
 
 .quote-card {
-background-color: #ffffff;
-/* border-left: 4px solid #e3342f; merah Laravel */
-padding: 0.75rem;
-border-radius: 6px;
-box-shadow: 0 4px 16px rgba(0,0,0,0.25);
-color: #374151;
-font-style: italic;
-transition: transform 0.1s ease;
+    background-color: #f9fafb;
+    border-left: 4px solid #3b82f6;
+    margin: 8px 24px;
+    padding: 12px 16px;
+    border-radius: 0 8px 8px 0;
+    font-size: 14px;
+    color: #4b5563;
+    max-width: 500px;
 }
 
-@keyframes scroll-quotes {
-  0% {
-    transform: translateY(0%);
-  }
-  100% {
-    transform: translateY(-50%);
-  }
+.quote-scroll:hover {
+    animation-play-state: paused;
 }
 
-@media (max-width: 600px) {
-    .quote-card {
-        font-size: 0.9rem;
-        padding: 0.5rem 0.75rem;
-    }
+.card-content {
+    display: flex;
+    padding: 24px;
+    align-items: flex-start;
+    border-top: 1px solid #f3f4f6;
+}
+
+.icon-container {
+    flex-shrink: 0;
+    background-color: #eef2ff;
+    border-radius: 10px;
+    padding: 12px;
+    margin-right: 16px;
+}
+
+.icon-container svg {
+    width: 32px;
+    height: 32px;
+    color: #4f46e5;
+}
+
+.text-container h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 8px;
+}
+
+.card-text {
+    color: #6b7280;
+    line-height: 1.6;
+    font-size: 15px;
 }
