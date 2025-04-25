@@ -5,56 +5,35 @@ namespace App\Http\Controllers;
 use App\Models\Quote;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 class QuoteController extends Controller
 {
+
     public function index()
     {
-        $quotes = Quote::latest()->paginate(10);
-        return view('quotes.index', compact('quotes'));
+        $quotes = Quote::all()->pluck('quote');
+        return view('dashboard.quotes', compact('quote'));
     }
+public function store(Request $request)
+{
+    $request->validate([
+        'quote' => 'required|string|max:255',
+        'author' => 'nullable|string|max:100',
+    ]);
 
-    public function create()
-    {
-        return view('quotes.create');
-    }
+    // Debugging: Cek query yang dieksekusi
+    DB::listen(function($query) {
+        Log::info("Query: " . $query->sql);
+    });
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'content' => 'required|string|max:255',
-            'author' => 'nullable|string|max:100',
-        ]);
+    Quote::create([
+        'quote' => $request->quote,
+        'author' => $request->author,
+    ]);
 
-        Quote::create($request->only('content', 'author'));
+    return redirect()->back()->with('success', 'Quote berhasil ditambahkan!');
+}
 
-        return redirect()->route('quotes.index')->with('success', 'Quote berhasil ditambahkan.');
-    }
-
-    public function show(Quote $quote)
-    {
-        return view('quotes.show', compact('quote'));
-    }
-
-    public function edit(Quote $quote)
-    {
-        return view('quotes.edit', compact('quote'));
-    }
-
-    public function update(Request $request, Quote $quote)
-    {
-        $request->validate([
-            'content' => 'required|string|max:255',
-            'author' => 'nullable|string|max:100',
-        ]);
-
-        $quote->update($request->only('content', 'author'));
-
-        return redirect()->route('quotes.index')->with('success', 'Quote berhasil diperbarui.');
-    }
-
-    public function destroy(Quote $quote)
-    {
-        $quote->delete();
-        return redirect()->route('quotes.index')->with('success', 'Quote berhasil dihapus.');
-    }
+    
 }
