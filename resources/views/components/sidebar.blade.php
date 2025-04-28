@@ -7,11 +7,11 @@
     </div>
     
     <div class="sidebar-menu">
-        <a href="#" class="sidebar-menu-item">
+        <a href="{{route('app')}}" class="sidebar-menu-item">
             <i class="fas fa-home"></i> Dashboard
         </a>
-        <a href="#" class="sidebar-menu-item">
-            <i class="fas fa-user"></i> Users
+        <a href="{{route('users.index')}}" class="sidebar-menu-item">
+            <i class="fas fa-users"></i> Users
         </a>
         <a href="#" class="sidebar-menu-item">
             <i class="fas fa-chart-bar"></i> Analytics

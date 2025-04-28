@@ -148,6 +148,7 @@
     <!-- Overlay for sidebar -->
     <div class="overlay" id="overlay"></div>
 
+    
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
@@ -177,12 +178,10 @@
             <!-- Header -->
             <div class="flex justify-between items-center mb-6">
                 <!-- Left - Hamburger Menu -->
-                <div>
-                    <button id="hamburger-menu" class="p-2 rounded-lg hover:bg-gray-200 transition-colors">
-                        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-                        </svg>
-                    </button>
+                <div class="flex items-center mb-6">
+                    <a href="{{ route('app') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        ← Back
+                    </a>
                 </div>
                 
                 <!-- Center - Page Title -->

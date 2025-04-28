@@ -33,6 +33,33 @@ const lineCtx = document.getElementById('lineChart').getContext('2d');
             }
         });
 
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     const quoteItems = document.querySelectorAll('.quote-item');
+        //     let currentIndex = 0;
+            
+        //     // Function to show next quote
+        //     function showNextQuote() {
+        //         // Remove active class from current quote
+        //         quoteItems[currentIndex].classList.remove('active');
+        //         quoteItems[currentIndex].style.animation = 'fadeOut 0.5s ease-out';
+                
+        //         // Update index to next quote
+        //         currentIndex = (currentIndex + 1) % quoteItems.length;
+                
+        //         // Add active class to next quote
+        //         setTimeout(() => {
+        //             quoteItems.forEach(item => {
+        //                 item.style.animation = '';
+        //                 item.classList.remove('active');
+        //             });
+        //             quoteItems[currentIndex].classList.add('active');
+        //         }, 500);
+        //     }
+            
+        //     // Set interval to show next quote every 5 seconds
+        //     setInterval(showNextQuote, 5000);
+        // });
+
         // Sidebar functionality
         document.addEventListener('DOMContentLoaded', function() {
             // Element selectors

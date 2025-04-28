@@ -66,10 +66,10 @@
             margin-bottom: 0.25rem;
         }
         
-        .quote-author {
+        /* .quote-author {
             font-size: 0.75rem;
             color: #6b7280;
-        }
+        } */
         
         @keyframes moveUpLoop {
             0% {
@@ -300,6 +300,7 @@
                 </div>
                 </a>
 
+                <a  href="{{ route('moods.index') }}">
                 <div class="bg-white rounded-lg shadow p-4">
                     <div class="flex items-center mb-2">
                         <div class="bg-blue-100 p-2 rounded-full mr-3">
@@ -311,6 +312,7 @@
                     </div>
                     <div class="text-3xl font-bold">27.5%</div>
                 </div>
+            </a>
 
                 <div class="bg-white rounded-lg shadow p-4">
                     <div class="flex items-center mb-2">
@@ -344,7 +346,6 @@
                                 </div>
                                 <div>
                                     <p class="quote-text">"{{ $quote->quote }}"</p>
-                                    <p class="quote-author">{{ $quote->author }}</p>
                                 </div>
                             </div>
                         @endforeach
