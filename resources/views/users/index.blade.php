@@ -6,96 +6,8 @@
     <title>User Management</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <style>
-        /* Sidebar Styles */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: -280px; /* Start off-screen */
-            width: 280px;
-            height: 100vh;
-            background: #2c3e50;
-            color: #ecf0f1;
-            transition: all 0.3s ease;
-            z-index: 1000;
-            box-shadow: 3px 0 10px rgba(0,0,0,0.2);
-            overflow-y: auto;
-        }
-
-        .sidebar.active {
-            left: 0; /* Move into view when active */
-        }
-
-        .sidebar-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1.25rem;
-            border-bottom: 1px solid #34495e;
-        }
-
-        .sidebar-header h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin: 0;
-        }
-
-        .close-sidebar {
-            background: none;
-            border: none;
-            color: #ecf0f1;
-            cursor: pointer;
-            font-size: 1.25rem;
-        }
-
-        .sidebar-menu {
-            padding: 1rem 0;
-        }
-
-        .sidebar-menu-item {
-            padding: 0.75rem 1.25rem;
-            display: flex;
-            align-items: center;
-            color: #ecf0f1;
-            text-decoration: none;
-            transition: all 0.2s ease;
-        }
-
-        .sidebar-menu-item:hover {
-            background-color: #34495e;
-        }
-
-        .sidebar-menu-item i {
-            margin-right: 0.75rem;
-            width: 1.25rem;
-            text-align: center;
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-            display: none;
-            transition: all 0.3s ease;
-        }
-
-        .overlay.active {
-            display: block;
-        }
-
-        /* Adjust main content when sidebar is open */
-        .content-wrapper {
-            transition: margin-left 0.3s ease;
-        }
-
-        .content-wrapper.shifted {
-            margin-left: 280px;
-        }
-        
         /* Search input styles */
         .search-input {
             border: 1px solid #e2e8f0;
@@ -149,31 +61,11 @@
     <div class="overlay" id="overlay"></div>
 
     <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h3>Admin Dashboard</h3>
-            <button id="close-sidebar" class="close-sidebar">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="sidebar-menu">
-            <a href="{{ route('quotes.index') }}" class="sidebar-menu-item">
-                <i class="fas fa-quote-left"></i>
-                Quotes
-            </a>
-            <a href="{{ route('users.index') }}" class="sidebar-menu-item">
-                <i class="fas fa-users"></i>
-                Users
-            </a>
-            <a href="#" class="sidebar-menu-item">
-                <i class="fas fa-user"></i>
-                Authors
-            </a>
-            <a href="#" class="sidebar-menu-item">
-                <i class="fas fa-cog"></i>
-                Settings
-            </a>
-        </div>
+    @include('components.sidebar')
+
+    <div class="flex-1 p-6">
+        <!-- Ini isi konten utama -->
+        @yield('content')
     </div>
     
     <div class="content-wrapper" id="content-wrapper">
@@ -256,7 +148,11 @@
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="flex-shrink-0 h-10 w-10">
-                                            <img class="h-10 w-10 rounded-full" src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=random" alt="{{ $user->name }}">
+                                            @if($user->avatar_id)
+                                                <img class="h-10 w-10 rounded-full object-cover" src="{{ asset('avatars/avatar' . $user->avatar_id . '.jpg') }}" alt="{{ $user->name }}">
+                                            @else
+                                                <img class="h-10 w-10 rounded-full" {{ urlencode($user->name) }}>
+                                            @endif
                                         </div>
                                         <div class="ml-4">
                                             <div class="text-sm font-medium text-gray-900">

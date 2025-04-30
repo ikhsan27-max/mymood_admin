@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Mood;
 use App\Models\User;
+use App\Models\MoodType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -40,7 +41,7 @@ class MoodController extends Controller
     public function create()
     {
         $users = User::all();
-        $moodTypes = $this->getMoodTypes();
+        $moodTypes = MoodType::all();
         
         return view('moods.create', compact('users', 'moodTypes'));
     }
@@ -86,7 +87,7 @@ class MoodController extends Controller
     public function edit(Mood $mood)
     {
         $users = User::all();
-        $moodTypes = $this->getMoodTypes();
+        $moodTypes = MoodType::all();
         
         return view('moods.edit', compact('mood', 'users', 'moodTypes'));
     }
@@ -132,15 +133,15 @@ class MoodController extends Controller
     /**
      * Get predefined mood types with their emojis and colors.
      */
-    private function getMoodTypes()
-    {
-        return [
-            ['type' => 'Happy', 'emoji' => '😊', 'color' => '#FFD700'],
-            ['type' => 'Sad', 'emoji' => '😢', 'color' => '#6495ED'],
-            ['type' => 'Excited', 'emoji' => '🎉', 'color' => '#FF4500'],
-            ['type' => 'Calm', 'emoji' => '😌', 'color' => '#98FB98'],
-            ['type' => 'Angry', 'emoji' => '😠', 'color' => '#FF6347'],
-            ['type' => 'Anxious', 'emoji' => '😰', 'color' => '#DDA0DD'],
-        ];
-    }
+    // private function getMoodTypes()
+    // {
+    //     return [
+    //         ['type' => 'Happy', 'emoji' => '😊', 'color' => '#FFD700'],
+    //         ['type' => 'Sad', 'emoji' => '😢', 'color' => '#6495ED'],
+    //         ['type' => 'Exxcited', 'emoji' => '🎉', 'color' => '#FF4500'],
+    //         ['type' => 'Calm', 'emoji' => '😌', 'color' => '#98FB98'],
+    //         ['type' => 'Angry', 'emoji' => '😠', 'color' => '#FF6347'],
+    //         ['type' => 'Anxious', 'emoji' => '😰', 'color' => '#DDA0DD'],
+    //     ];
+    // }
 }

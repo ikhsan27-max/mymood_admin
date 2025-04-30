@@ -55,5 +55,5 @@
       }, 3000);
     });
   </script>
-    @include('components.loading')
+    
   

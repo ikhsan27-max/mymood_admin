@@ -6,96 +6,8 @@
     <title>Quotes Management</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <style>
-        /* Sidebar Styles */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            left: -280px; /* Start off-screen */
-            width: 280px;
-            height: 100vh;
-            background: #2c3e50;
-            color: #ecf0f1;
-            transition: all 0.3s ease;
-            z-index: 1000;
-            box-shadow: 3px 0 10px rgba(0,0,0,0.2);
-            overflow-y: auto;
-        }
-
-        .sidebar.active {
-            left: 0; /* Move into view when active */
-        }
-
-        .sidebar-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 1.25rem;
-            border-bottom: 1px solid #34495e;
-        }
-
-        .sidebar-header h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin: 0;
-        }
-
-        .close-sidebar {
-            background: none;
-            border: none;
-            color: #ecf0f1;
-            cursor: pointer;
-            font-size: 1.25rem;
-        }
-
-        .sidebar-menu {
-            padding: 1rem 0;
-        }
-
-        .sidebar-menu-item {
-            padding: 0.75rem 1.25rem;
-            display: flex;
-            align-items: center;
-            color: #ecf0f1;
-            text-decoration: none;
-            transition: all 0.2s ease;
-        }
-
-        .sidebar-menu-item:hover {
-            background-color: #34495e;
-        }
-
-        .sidebar-menu-item i {
-            margin-right: 0.75rem;
-            width: 1.25rem;
-            text-align: center;
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-            display: none;
-            transition: all 0.3s ease;
-        }
-
-        .overlay.active {
-            display: block;
-        }
-
-        /* Adjust main content when sidebar is open */
-        .content-wrapper {
-            transition: margin-left 0.3s ease;
-        }
-
-        .content-wrapper.shifted {
-            margin-left: 280px;
-        }
-        
         /* Search input styles */
         .search-input {
             border: 1px solid #e2e8f0;
@@ -148,40 +60,26 @@
     <!-- Overlay for sidebar -->
     <div class="overlay" id="overlay"></div>
 
-    
-    <!-- Sidebar -->
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <h3>Quotes App</h3>
-            <button id="close-sidebar" class="close-sidebar">
-                <i class="fas fa-times"></i>
-            </button>
+        <!-- Sidebar -->
+        @include('components.sidebar')
+
+        <div class="flex-1 p-6">
+            <!-- Ini isi konten utama -->
+            @yield('content')
         </div>
-        <div class="sidebar-menu">
-            <a href="{{ route('quotes.index') }}" class="sidebar-menu-item">
-                <i class="fas fa-quote-left"></i>
-                Quotes
-            </a>
-            <a href="#" class="sidebar-menu-item">
-                <i class="fas fa-user"></i>
-                Authors
-            </a>
-            <a href="#" class="sidebar-menu-item">
-                <i class="fas fa-cog"></i>
-                Settings
-            </a>
         </div>
-    </div>
     
     <div class="content-wrapper" id="content-wrapper">
         <div class="container mx-auto p-6">
             <!-- Header -->
             <div class="flex justify-between items-center mb-6">
                 <!-- Left - Hamburger Menu -->
-                <div class="flex items-center mb-6">
-                    <a href="{{ route('app') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                        ← Back
-                    </a>
+                <div>
+                    <button id="hamburger-menu" class="p-2 rounded-lg hover:bg-gray-200 transition-colors">
+                        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
                 </div>
                 
                 <!-- Center - Page Title -->

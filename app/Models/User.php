@@ -23,6 +23,8 @@ class User extends Authenticatable
         'password',
         'role',
         'email_verified_at',
+        'avatar_id'
+
     ];
 
     /**
@@ -48,6 +50,13 @@ class User extends Authenticatable
         ];
     }
 
+    // Di dalam model User.php
+    public function scopeOnlyUsers($query)
+    {
+        return $query->where('role', 'user');
+    }
+
+
     public function themes()
     {
         return $this->hasMany(Theme::class);
@@ -67,4 +76,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Tag::class);
     }
+
+    public function avatar()
+    {
+        return $this->belongsTo(Avatar::class);
+    }
+    
+
+
 }
