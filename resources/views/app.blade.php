@@ -361,7 +361,7 @@
 
                 <!-- Quotes -->
                 <div class="quote-container">
-                    <h2 class="quote-title">Users</h2>
+                    <h2 class="quote-title">Quotes</h2>
                     <div class="quotes-wrapper">
                         @foreach($quotes as $index => $quote)
                         <div class="quote-item" style="animation-delay: 0s;">
