@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add New Mood</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -157,14 +158,13 @@
         }
     </style>
 </head>
-<body>
-    <div class="container">
-        <div class="header">
-            <a href="{{ route('moods.index') }}" class="back-button">
-                <i class="fas fa-arrow-left"></i> Back
+<body class="bg-blue-100"> 
+    <div class="container mx-auto p-6">
+        <div class="flex items-center mb-6">
+            <a href="{{ route('moods.index') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                ← Back
             </a>
-            <h1 class="page-title">Mood Management</h1>
-            <div></div> <!-- Empty div for flex spacing -->
+            <h1 class="text-2xl font-bold text-gray-800 ml-4">Mood Management</h1>
         </div>
 
         <div class="card">

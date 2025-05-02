@@ -6,11 +6,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens; // ✅ Tambahkan ini
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasApiTokens,HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +24,8 @@ class User extends Authenticatable
         'password',
         'role',
         'email_verified_at',
+        'avatar_id'
+
     ];
 
     /**
@@ -48,6 +51,13 @@ class User extends Authenticatable
         ];
     }
 
+    // Di dalam model User.php
+    public function scopeOnlyUsers($query)
+    {
+        return $query->where('role', 'user');
+    }
+
+
     public function themes()
     {
         return $this->hasMany(Theme::class);
@@ -67,4 +77,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Tag::class);
     }
+
+    public function avatar()
+    {
+        return $this->belongsTo(Avatar::class);
+    }
+    
+
+
 }

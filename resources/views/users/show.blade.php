@@ -36,7 +36,23 @@
             <div class="flex flex-col md:flex-row">
                 <!-- User Avatar and Basic Info -->
                 <div class="md:w-1/3 flex flex-col items-center p-4">
-                    <img class="user-avatar mb-4" src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=random&size=128" alt="{{ $user->name }}">
+                    <div class="relative mb-4">
+                        
+                        @if($user->avatar_id)
+                            <img class="user-avatar" src="{{ asset($user->avatar->avatar_path) }}" 
+                                alt="{{ $user->name }}" 
+                                onerror="this.onerror=null; this.src='https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=random&size=128'">
+                            <div class="avatar-badge" title="Custom Avatar">
+                                <i class="fas fa-image text-xs"></i>
+                            </div>
+                        @else
+                            <img class="user-avatar" src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=random&size=128" alt="{{ $user->name }}">
+                            <div class="avatar-badge bg-gray-500" title="Default Avatar">
+                                <i class="fas fa-user text-xs"></i>
+                            </div>
+                        @endif
+                    </div>
+
                     <h2 class="text-xl font-bold text-gray-800">{{ $user->name }}</h2>
                     <p class="text-gray-600">{{ $user->email }}</p>
                     <div class="mt-2 flex flex-wrap justify-center">

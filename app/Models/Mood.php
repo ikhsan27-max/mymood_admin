@@ -18,6 +18,10 @@ class Mood extends Model
         'date'
     ];
 
+    protected $casts = [
+        'date' => 'date',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

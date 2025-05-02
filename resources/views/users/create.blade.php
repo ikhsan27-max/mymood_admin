@@ -54,6 +54,33 @@
             border-radius: 50%;
             object-fit: cover;
         }
+        
+        /* Avatar selection styles */
+        .avatar-option {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 3px solid transparent;
+            background-color: #f3f4f6;
+        }
+        
+        .avatar-option:hover {
+            transform: scale(1.1);
+        }
+        
+        .avatar-option.selected {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+        }
+        
+        .avatar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 15px;
+        }
     </style>
 </head>
 <body class="bg-blue-100">
@@ -97,6 +124,42 @@
                         <div class="mb-4">
                             <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm Password</label>
                             <input type="password" id="password_confirmation" name="password_confirmation" class="form-input" placeholder="Confirm password">
+                        </div>
+                        
+                        <!-- Avatar Selection -->
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Select Avatar</label>
+                            <input type="hidden" id="avatar_id" name="avatar_id" value="{{ old('avatar_id') }}">
+                            
+                            <div class="avatar-grid mt-3">
+                                @foreach($avatars as $avatar)
+                                    <div class="flex flex-col items-center">
+                                        <img 
+                                        src="{{ asset($avatar->avatar_path) }}"
+                                        alt="Avatar {{ $avatar->id }}" 
+                                        class="avatar-option {{ old('avatar_id') == $avatar->id ? 'selected' : '' }}" 
+                                        data-avatar-id="{{ $avatar->id }}"
+                                        onclick="selectAvatar(this, {{ $avatar->id }})"
+                                        >
+                                        <span class="text-xs text-gray-500 mt-1">Avatar {{ $avatar->id }}</span>
+                                    </div>
+                                @endforeach
+                                
+                                <!-- Default placeholder if no avatar selected -->
+                                <div class="flex flex-col items-center">
+                                    <img
+                                        src="https://ui-avatars.com/api/?name=DE&background=lightgreen" 
+                                        alt="Default Avatar"
+                                        class="avatar-option {{ old('avatar_id') ? '' : 'selected' }}"
+                                        data-avatar-id=""
+                                        onclick="selectAvatar(this, '')"
+                                    >
+                                    <span class="text-xs text-gray-500 mt-1">Default</span>
+                                </div>
+                            </div>
+                            @error('avatar_id')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
@@ -160,6 +223,7 @@
             const emailInput = document.getElementById('email');
             const roleSelect = document.getElementById('role');
             const verifyEmail = document.getElementById('verify_email');
+            const avatarIdInput = document.getElementById('avatar_id');
             
             const previewName = document.getElementById('preview-name');
             const previewEmail = document.getElementById('preview-email');
@@ -173,6 +237,19 @@
             roleSelect.addEventListener('change', updatePreview);
             verifyEmail.addEventListener('change', updatePreview);
             
+            // Initialize with any selected avatar
+            const selectedAvatar = document.querySelector('.avatar-option.selected');
+            if (selectedAvatar) {
+                previewAvatar.src = selectedAvatar.src;
+            }
+            
+            // Handle broken avatar images
+            document.querySelectorAll('.avatar-option').forEach(img => {
+                img.addEventListener('error', function() {
+                    this.src = `https://ui-avatars.com/api/?name=Avatar+${this.dataset.avatarId || 'Default'}&background=random`;
+                });
+            });
+            
             function updatePreview() {
                 const name = nameInput.value.trim() || 'New User';
                 const email = emailInput.value.trim() || 'user@example.com';
@@ -182,9 +259,6 @@
                 previewName.textContent = name;
                 previewEmail.textContent = email;
                 previewRole.textContent = role;
-                
-                // Update avatar
-                previewAvatar.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random`;
                 
                 // Update verification badge
                 if (isVerified) {
@@ -206,6 +280,23 @@
             // Initialize preview
             updatePreview();
         });
+        
+        // Avatar selection function
+        function selectAvatar(element, avatarId) {
+            // Remove selected class from all avatars
+            document.querySelectorAll('.avatar-option').forEach(avatar => {
+                avatar.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked avatar
+            element.classList.add('selected');
+            
+            // Update hidden input value
+            document.getElementById('avatar_id').value = avatarId;
+            
+            // Update preview avatar
+            document.getElementById('preview-avatar').src = element.src;
+        }
     </script>
 </body>
 </html>

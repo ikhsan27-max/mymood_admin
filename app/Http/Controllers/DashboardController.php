@@ -15,7 +15,7 @@ class DashboardController extends Controller
         // Menghitung total jumlah quotes
         $totalQuotes = Quote::count();
 
-        $totalUsers = User::count();
+        $totalUsers = User::onlyUsers()->count();
     
         // Mengirim quotes dan totalQuotes ke view
         return view('app', compact('quotes', 'totalQuotes', 'totalUsers'));

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Mood</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -158,7 +159,7 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container mx-auto p-6">
         <div class="header">
             <a href="{{ route('moods.index') }}" class="back-button">
                 <i class="fas fa-arrow-left"></i> Back
@@ -205,12 +206,9 @@
                     <label for="mood_type" class="form-label">Mood Type</label>
                     <select name="mood_type" id="mood_type" class="form-select @error('mood_type') is-invalid @enderror">
                         <option value="">Select Mood Type</option>
-                        @foreach($moodTypes as $moodType)
-                            <option value="{{ $moodType['type'] }}" 
-                                    data-emoji="{{ $moodType['emoji'] }}" 
-                                    data-color="{{ $moodType['color'] }}" 
-                                    {{ old('mood_type', $mood->mood_type) == $moodType['type'] ? 'selected' : '' }}>
-                                {{ $moodType['emoji'] }} {{ $moodType['type'] }}
+                        @foreach($moodTypes as $type)
+                            <option value="{{ $type->type }}" {{ old('mood_type', $mood->mood_type ?? '') == $type->type ? 'selected' : '' }}>
+                                {{ $type->emoji }} {{ $type->type }}
                             </option>
                         @endforeach
                     </select>

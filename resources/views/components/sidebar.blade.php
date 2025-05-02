@@ -13,14 +13,18 @@
         <a href="{{route('users.index')}}" class="sidebar-menu-item">
             <i class="fas fa-users"></i> Users
         </a>
-        <a href="#" class="sidebar-menu-item">
-            <i class="fas fa-chart-bar"></i> Analytics
+        <a href="{{route('quotes.index')}}" class="sidebar-menu-item">
+            <i class="fas fa-quote-left"></i> quotes
         </a>
         <a href="#" class="sidebar-menu-item">
             <i class="fas fa-cog"></i> Settings
         </a>
-        <a href="#" class="sidebar-menu-item">
-            <i class="fas fa-sign-out-alt"></i> Logout
-        </a>
+    </div>
+    <div class="sidebar-footer">
+        <form action="#" method="POST">
+            <button type="submit" class="sidebar-menu-item w-full text-left">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </form>
     </div>
 </div>

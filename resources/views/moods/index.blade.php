@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mood Management</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <style>
         * {
             margin: 0;
@@ -168,16 +170,25 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <a href="{{ route('app') }}" class="back-button">
-                <i class="fas fa-arrow-left"></i> Back
-            </a>
-            <h1 class="page-title">Mood Management</h1>
+    <div class="container mx-auto p-6">
+        <div class="flex justify-between items-center mb-6">
+            <!-- Left - Hamburger Menu -->
+            <div class="flex items-center mb-6">
+                <a href="{{ route('app') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    ← Back
+                </a>
+            </div>
+            
+            <!-- Center - Page Title -->
+            <h1 class="text-2xl font-bold text-gray-800">Quotes Management</h1>
+            
+            <!-- Right - Search Box -->
             <div class="search-container">
-                <i class="fas fa-search search-icon"></i>
+                <span class="search-icon">
+                    <i class="fas fa-search"></i>
+                </span>
                 <form action="{{ route('moods.index') }}" method="GET">
-                    <input type="text" name="search" class="search-input" placeholder="Search moods..." value="{{ request('search') }}">
+                    <input type="text" name="search" placeholder="Search quotes..." class="search-input" value="{{ request('search') }}">
                 </form>
             </div>
         </div>

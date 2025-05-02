@@ -54,6 +54,33 @@
             border-radius: 50%;
             object-fit: cover;
         }
+        
+        /* Avatar selection styles */
+        .avatar-option {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 3px solid transparent;
+            background-color: #f3f4f6;
+        }
+        
+        .avatar-option:hover {
+            transform: scale(1.1);
+        }
+        
+        .avatar-option.selected {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+        }
+        
+        .avatar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 15px;
+        }
     </style>
 </head>
 <body class="bg-blue-100">
@@ -62,7 +89,7 @@
             <a href="{{ route('users.index') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                 ← Back
             </a>
-            <h1 class="text-2xl font-bold text-gray-800 ml-4">Edit User</h1>
+            <h1 class="text-2xl font-bold text-gray-800 ml-4">Edit User: {{ $user->name }}</h1>
         </div>
 
         <div class="bg-white rounded-lg shadow-lg p-6">
@@ -89,8 +116,8 @@
 
                         <div class="mb-4">
                             <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                            <input type="password" id="password" name="password" class="form-input" placeholder="Leave blank to keep current password">
-                            <p class="text-xs text-gray-500 mt-1">Leave blank to keep the current password</p>
+                            <input type="password" id="password" name="password" class="form-input" placeholder="Leave empty to keep current password">
+                            <p class="text-xs text-gray-500 mt-1">Leave blank if you don't want to change the password</p>
                             @error('password')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
@@ -98,7 +125,43 @@
 
                         <div class="mb-4">
                             <label for="password_confirmation" class="block text-sm font-medium text-gray-700">Confirm Password</label>
-                            <input type="password" id="password_confirmation" name="password_confirmation" class="form-input" placeholder="Confirm password">
+                            <input type="password" id="password_confirmation" name="password_confirmation" class="form-input" placeholder="Confirm new password">
+                        </div>
+                        
+                        <!-- Avatar Selection -->
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Select Avatar</label>
+                            <input type="hidden" id="avatar_id" name="avatar_id" value="{{ old('avatar_id', $user->avatar_id) }}">
+                            
+                            <div class="avatar-grid mt-3">
+                                @foreach($avatars as $avatar)
+                                    <div class="flex flex-col items-center">
+                                        <img 
+                                        src="{{ asset($avatar->avatar_path) }}"
+                                        alt="Avatar {{ $avatar->id }}" 
+                                        class="avatar-option {{ old('avatar_id', $user->avatar_id) == $avatar->id ? 'selected' : '' }}" 
+                                        data-avatar-id="{{ $avatar->id }}"
+                                        onclick="selectAvatar(this, {{ $avatar->id }})"
+                                        >
+                                        <span class="text-xs text-gray-500 mt-1">Avatar {{ $avatar->id }}</span>
+                                    </div>
+                                @endforeach
+                                
+                                <!-- Default placeholder if no avatar selected -->
+                                <div class="flex flex-col items-center">
+                                    <img
+                                        src="https://ui-avatars.com/api/?name=DE&background=lightgreen" 
+                                        alt="Default Avatar"
+                                        class="avatar-option {{ old('avatar_id', $user->avatar_id) ? '' : 'selected' }}"
+                                        data-avatar-id=""
+                                        onclick="selectAvatar(this, '')"
+                                    >
+                                    <span class="text-xs text-gray-500 mt-1">Default</span>
+                                </div>
+                            </div>
+                            @error('avatar_id')
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
@@ -123,21 +186,16 @@
                                         Mark email as verified
                                     </label>
                                 </div>
-                                <p class="text-xs text-gray-500 mt-1">
-                                    @if($user->email_verified_at)
-                                        Email was verified on {{ $user->email_verified_at->format('M d, Y') }}
-                                    @else
-                                        Email is not verified. Check to verify.
-                                    @endif
-                                </p>
+                                <p class="text-xs text-gray-500 mt-1">User's email was {{ $user->email_verified_at ? 'verified on ' . $user->email_verified_at->format('M d, Y') : 'not verified' }}.</p>
                             </div>
                         </div>
+
 
                         <div class="mb-4">
                             <label class="block text-sm font-medium text-gray-700">User Preview</label>
                             <div class="user-preview mt-2">
                                 <div class="flex items-center">
-                                    <img id="preview-avatar" class="user-avatar" src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=random" alt="User Avatar">
+                                    <img id="preview-avatar" class="user-avatar" src="{{ $user->avatar_id ? asset($user->avatar->avatar_path) : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) . '&background=random' }}" alt="User Avatar">
                                     <div class="ml-4">
                                         <div class="text-sm font-medium text-gray-900" id="preview-name">{{ $user->name }}</div>
                                         <div class="text-sm text-gray-500" id="preview-email">{{ $user->email }}</div>
@@ -163,6 +221,9 @@
                     <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Update User</button>
                 </div>
             </form>
+            
+            <!-- Delete Form -->
+        
         </div>
     </div>
 
@@ -172,6 +233,7 @@
             const emailInput = document.getElementById('email');
             const roleSelect = document.getElementById('role');
             const verifyEmail = document.getElementById('verify_email');
+            const avatarIdInput = document.getElementById('avatar_id');
             
             const previewName = document.getElementById('preview-name');
             const previewEmail = document.getElementById('preview-email');
@@ -185,18 +247,28 @@
             roleSelect.addEventListener('change', updatePreview);
             verifyEmail.addEventListener('change', updatePreview);
             
+            // Initialize with any selected avatar
+            const selectedAvatar = document.querySelector('.avatar-option.selected');
+            if (selectedAvatar) {
+                previewAvatar.src = selectedAvatar.src;
+            }
+            
+            // Handle broken avatar images
+            document.querySelectorAll('.avatar-option').forEach(img => {
+                img.addEventListener('error', function() {
+                    this.src = `https://ui-avatars.com/api/?name=${encodeURIComponent('Avatar ' + (this.dataset.avatarId || 'Default'))}&background=random`;
+                });
+            });
+            
             function updatePreview() {
-                const name = nameInput.value.trim() || 'User Name';
-                const email = emailInput.value.trim() || 'user@example.com';
+                const name = nameInput.value.trim() || '{{ $user->name }}';
+                const email = emailInput.value.trim() || '{{ $user->email }}';
                 const role = roleSelect.options[roleSelect.selectedIndex].text;
                 const isVerified = verifyEmail.checked;
                 
                 previewName.textContent = name;
                 previewEmail.textContent = email;
                 previewRole.textContent = role;
-                
-                // Update avatar
-                previewAvatar.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random`;
                 
                 // Update verification badge
                 if (isVerified) {
@@ -218,6 +290,23 @@
             // Initialize preview
             updatePreview();
         });
+        
+        // Avatar selection function
+        function selectAvatar(element, avatarId) {
+            // Remove selected class from all avatars
+            document.querySelectorAll('.avatar-option').forEach(avatar => {
+                avatar.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked avatar
+            element.classList.add('selected');
+            
+            // Update hidden input value
+            document.getElementById('avatar_id').value = avatarId;
+            
+            // Update preview avatar
+            document.getElementById('preview-avatar').src = element.src;
+        }
     </script>
 </body>
 </html>
