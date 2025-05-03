@@ -2,8 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Hash;
 
-
+use App\Models\User;
 use App\Http\Controllers\MoodController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -13,34 +14,28 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 
+// Route untuk mendapatkan user yang sedang login (menggunakan Sanctum)
 Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-
-
-
-
-// Route yang butuh autentikasi
+// Group route yang memerlukan autentikasi
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('moods', MoodController::class);
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy']);
+    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store']);
 });
 
-// Route yang bebas tanpa autentikasi
+// Route bebas autentikasi
 Route::apiResource('quotes', QuoteController::class);
-
-
-
-// Register route
 Route::post('register', [RegisteredUserController::class, 'store']);
+Route::post('forgot-password', [PasswordResetLinkController::class, 'store']);
+Route::post('reset-password', [NewPasswordController::class, 'store']);
 
-// // Login route
-// Route::post('login', [AuthenticatedSessionController::class, 'store']);
+// Verifikasi email (setelah register)
+Route::get('email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])->name('verification.verify');
 
-
+// Custom login route (jika tidak pakai controller default)
 Route::post('/login', function (Request $request) {
     $request->validate([
         'email' => 'required|email',
@@ -61,19 +56,3 @@ Route::post('/login', function (Request $request) {
         'user' => $user,
     ]);
 });
-
-// Email verification
-Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])->middleware('auth:sanctum');
-
-// Password reset link
-Route::post('forgot-password', [PasswordResetLinkController::class, 'store']);
-
-// Reset password (using token from email)
-Route::post('reset-password', [NewPasswordController::class, 'store']);
-
-// Logout route (protected)
-Route::middleware('auth:sanctum')->post('logout', [AuthenticatedSessionController::class, 'destroy']);
-
-// Verify email after registration
-Route::get('email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])->name('verification.verify');
-
