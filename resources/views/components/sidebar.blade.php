@@ -16,6 +16,9 @@
         <a href="{{route('quotes.index')}}" class="sidebar-menu-item">
             <i class="fas fa-quote-left"></i> quotes
         </a>
+        <a href="{{ route('mood-streaks.index') }}" class="sidebar-menu-item">
+            <i class="fas fa-fire"></i> Mood Streak
+        </a>
         <a href="#" class="sidebar-menu-item">
             <i class="fas fa-cog"></i> Settings
         </a>
