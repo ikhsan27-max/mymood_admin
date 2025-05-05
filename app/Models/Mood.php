@@ -11,7 +11,7 @@ class Mood extends Model
 
     protected $fillable = [
         'user_id', 
-        'mood_type', 
+        'mood_type_id', 
         'color', 
         'emoji', 
         'note', 
@@ -31,4 +31,10 @@ class Mood extends Model
     {
         return $this->belongsToMany(Tag::class, 'mood_tag');
     }
+
+    public function moodType()
+    {
+        return $this->belongsTo(MoodType::class);
+    }
+
 }

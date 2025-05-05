@@ -65,7 +65,7 @@ class User extends Authenticatable
 
     public function moods()
     {
-        return $this->hasMany(Mood::class);
+        return $this->hasMany(\App\Models\Mood::class);
     }
 
     public function moodStreaks()
@@ -75,7 +75,7 @@ class User extends Authenticatable
 
     public function tags()
     {
-        return $this->hasMany(Tag::class);
+        return $this->hasMany(\App\Models\Tag::class);
     }
 
     public function avatar()
